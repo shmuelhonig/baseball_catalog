@@ -1,0 +1,8 @@
+{% extends "main.html" %}
+{% block content %}
+  {% for t in teams %}
+  <div>
+    {{t.name}}
+  </div>
+  {% endfor %}
+{% endblock %}
