@@ -39,7 +39,30 @@ class Teams(Base):
 		}
 
 
+class Players(Base):
+	__tablename__ = 'players'
 
+	id = Column(Integer, primary_key=True)
+	name = Column(String(100), nullable=False)
+	position = Column(String(6))
+	number = Column(String(2))
+	handedness = Column(String(1))
+	team_id = Column(Integer, ForeignKey('teams.id'))
+	teams = relationship(Teams)
+	user_id = Column(Integer, ForeignKey('users.id'))
+	users = relationship(Users)
+
+	@property
+	def serialize(self):
+		return {
+			'id': self.id,
+			'name': self.name,
+			'position': self.position,
+			'number': self.number,
+			'handedness': self.handedness,
+			'team_id': self.team_id,
+			'user_id': self.user_id
+		}
 
 engine = create_engine('sqlite:///baseball.db')
 Base.metadata.create_all(engine)
