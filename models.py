@@ -41,5 +41,5 @@ class Teams(Base):
 
 
 
-engine = create_engine('sqlite:///fantasybaseball.db')
+engine = create_engine('sqlite:///baseball.db')
 Base.metadata.create_all(engine)
