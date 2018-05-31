@@ -22,6 +22,23 @@ class Users(Base):
 		}
 
 
+class Teams(Base):
+	__tablename__ = 'teams'
+
+	id = Column(Integer, primary_key=True)
+	name = Column(String(100), nullable=False)
+	user_id = Column(Integer, ForeignKey('users.id'))
+	users = relationship(Users)
+
+	@property
+	def serialize(self):
+		return {
+			'id': self.id,
+			'name': self.name,
+			'user_id': self.user_id
+		}
+
+
 
 
 engine = create_engine('sqlite:///fantasybaseball.db')
