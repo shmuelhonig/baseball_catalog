@@ -13,3 +13,16 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+
+# Show all Teams
+@app.route('/')
+@app.route('/teams/')
+def showTeams():
+    teams = session.query(Teams).order_by(asc(Teams.name))
+    return render_template('teams.html', teams=teams)
+
+if __name__ == '__main__':
+    app.secret_key = "supersekrit"
+    app.debug = True
+    app.run(host = '0.0.0.0', port = 8000, threaded = False)
