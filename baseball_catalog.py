@@ -34,6 +34,21 @@ def newTeam():
     else:
         return render_template('newTeam.html')
 
+# Edit team name
+@app.route('/<team_name>/edit/', methods=['GET','POST'])
+def editTeam(team_name):
+    teamToUpdate = session.query(Teams).filter_by(name=team_name).one()
+    oldName = teamToUpdate.name
+    if request.method == 'POST':
+        teamToUpdate.name = request.form['newname']
+        session.add(teamToUpdate)
+        session.commit()
+        flash('Successfully renamed %s to %s' % (oldName, teamToUpdate.name))
+        return redirect(url_for('showTeams'))
+    else:
+        return render_template('editTeam.html', oldname=oldName)
+
+
 # Show team roster
 @app.route('/<team_name>/')
 @app.route('/<team_name>/roster/')
