@@ -22,6 +22,7 @@ def showTeams():
     teams = session.query(Teams).order_by(asc(Teams.name))
     return render_template('teams.html', teams=teams)
 
+# Show team roster
 @app.route('/<team_name>/')
 @app.route('/<team_name>/roster/')
 def showRoster(team_name):
