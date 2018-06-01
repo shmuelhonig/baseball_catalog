@@ -1,0 +1,8 @@
+{% extends "main.html" %}
+{% block content %}
+  {% for p in roster %}
+  <div>
+    {{p.name}}
+  </div>
+  {% endfor %}
+{% endblock %}
