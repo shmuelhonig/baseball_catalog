@@ -11,10 +11,11 @@
       {% endif %}
     {% endwith %}
   </div>
-  
+  <a href='{{url_for('newTeam')}}'>Create new team</a>
   {% for t in teams %}
   <div>
     {{t.name}}
+    <a href='{{url_for('editTeam', team_name=t.name)}}'>Edit</a>
   </div>
   {% endfor %}
 {% endblock %}

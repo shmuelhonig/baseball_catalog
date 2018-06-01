@@ -46,7 +46,7 @@ def editTeam(team_name):
         flash('Successfully renamed %s to %s' % (oldName, teamToUpdate.name))
         return redirect(url_for('showTeams'))
     else:
-        return render_template('editTeam.html', oldname=oldName)
+        return render_template('editTeam.html', oldname=oldName, team_name=team_name)
 
 
 # Show team roster
