@@ -63,7 +63,7 @@ session.add(hansen)
 session.commit()
 
 # Team Rebels
-rebels = Teams(name="rebels")
+rebels = Teams(name="Rebels")
 session.add(rebels)
 session.commit()
 
