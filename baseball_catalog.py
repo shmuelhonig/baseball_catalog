@@ -22,6 +22,18 @@ def showTeams():
     teams = session.query(Teams).order_by(asc(Teams.name))
     return render_template('teams.html', teams=teams)
 
+# Create new team
+@app.route('/teams/new/', methods=['GET','POST'])
+def newTeam():
+    if request.method == 'POST':
+        newTeam = Teams(name=request.form['name'])
+        session.add(newTeam)
+        session.commit()
+        flash('New team %s successfully created' % newTeam.name)
+        return redirect(url_for('showTeams'))
+    else:
+        return render_template('newTeam.html')
+
 # Show team roster
 @app.route('/<team_name>/')
 @app.route('/<team_name>/roster/')
