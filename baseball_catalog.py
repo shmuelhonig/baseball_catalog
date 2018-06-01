@@ -22,6 +22,13 @@ def showTeams():
     teams = session.query(Teams).order_by(asc(Teams.name))
     return render_template('teams.html', teams=teams)
 
+@app.route('/<team_id>/')
+@app.route('/<team_id>/roster/')
+def showRoster(team_id):
+    roster = session.query(Players).filter_by(team_id=team_id).order_by(asc(Players.name))
+    return render_template('roster.html', roster=roster, team_id=team_id)
+
+
 if __name__ == '__main__':
     app.secret_key = "supersekrit"
     app.debug = True
