@@ -48,6 +48,18 @@ def editTeam(team_name):
     else:
         return render_template('editTeam.html', oldname=oldName, team_name=team_name)
 
+# Delete team
+@app.route('/<team_name>/delete', methods=['GET', 'POST'])
+def deleteTeam(team_name):
+    if request.method == 'POST':
+        teamToDelete = session.query(Teams).filter_by(name=team_name).one()
+        session.delete(teamToDelete)
+        session.commit()
+        flash('Successfully deleted the %s' % (teamToDelete.name))
+        return redirect(url_for('showTeams'))
+    else:
+        return render_template('deleteTeam.html', team_name=team_name)
+
 
 # Show team roster
 @app.route('/<team_name>/')

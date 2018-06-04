@@ -16,6 +16,7 @@
   <div>
     {{t.name}}
     <a href='{{url_for('editTeam', team_name=t.name)}}'>Edit</a>
+    <a href='{{url_for('deleteTeam', team_name=t.name)}}'>Delete</a>
   </div>
   {% endfor %}
 {% endblock %}
