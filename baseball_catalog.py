@@ -35,9 +35,9 @@ def newTeam():
         return render_template('newTeam.html')
 
 # Edit team name
-@app.route('/<team_name>/edit/', methods=['GET','POST'])
-def editTeam(team_name):
-    teamToUpdate = session.query(Teams).filter_by(name=team_name).one()
+@app.route('/<team_id>/edit/', methods=['GET','POST'])
+def editTeam(team_id):
+    teamToUpdate = session.query(Teams).filter_by(id=team_id).one()
     oldName = teamToUpdate.name
     if request.method == 'POST':
         teamToUpdate.name = request.form['newname']
@@ -46,28 +46,27 @@ def editTeam(team_name):
         flash('Successfully renamed %s to %s' % (oldName, teamToUpdate.name))
         return redirect(url_for('showTeams'))
     else:
-        return render_template('editTeam.html', oldname=oldName, team_name=team_name)
+        return render_template('editTeam.html', oldname=oldName, team_id=team_id)
 
 # Delete team
-@app.route('/<team_name>/delete', methods=['GET', 'POST'])
-def deleteTeam(team_name):
+@app.route('/<team_id>/delete', methods=['GET', 'POST'])
+def deleteTeam(team_id):
+    teamToDelete = session.query(Teams).filter_by(id=team_id).one()
     if request.method == 'POST':
-        teamToDelete = session.query(Teams).filter_by(name=team_name).one()
         session.delete(teamToDelete)
         session.commit()
         flash('Successfully deleted the %s' % (teamToDelete.name))
         return redirect(url_for('showTeams'))
     else:
-        return render_template('deleteTeam.html', team_name=team_name)
+        return render_template('deleteTeam.html', teamToDelete=teamToDelete)
 
 
 # Show team roster
-@app.route('/<team_name>/')
-@app.route('/<team_name>/roster/')
-def showRoster(team_name):
-    team = session.query(Teams).filter_by(name=team_name).all()
-    team_id = team[0].id
-    roster = session.query(Players).filter_by(team_id=team_id).\
+@app.route('/<team_id>/')
+@app.route('/<team_id>/roster/')
+def showRoster(team_id):
+    team = session.query(Teams).filter_by(id=team_id).one()
+    roster = session.query(Players).filter_by(team_id=team.id).\
              order_by(asc(Players.name))
     return render_template('roster.html', roster=roster, team=team)
 
