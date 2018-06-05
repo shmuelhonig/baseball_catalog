@@ -1,0 +1,8 @@
+{% extends "main.html" %}
+{% block content %}
+  <form action=# method='post'>
+    Are you sure you would like to delete {{playerToDelete.name}}?
+    <button type='submit'>Delete</button>
+  </form>
+  <a href='{{url_for('showRoster', team_id=team_id)}}'>Cancel</a>
+{% endblock %}

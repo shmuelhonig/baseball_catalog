@@ -107,6 +107,19 @@ def editPlayer(team_id, player_id):
         return render_template('editPlayer.html', team_id=team_id,\
             playerToUpdate=playerToUpdate)
 
+# Delete player
+@app.route('/<team_id>/<player_id>/delete', methods=['GET', 'POST'])
+def deletePlayer(team_id, player_id):
+    playerToDelete = session.query(Players).filter_by(id=player_id).one()
+    if request.method == 'POST':
+        session.delete(playerToDelete)
+        session.commit()
+        flash('Successfully deleted %s' % (playerToDelete.name))
+        return redirect(url_for('showRoster', team_id=team_id))
+    else:
+        return render_template('deletePlayer.html', team_id=team_id,\
+            playerToDelete=playerToDelete)
+
 
 if __name__ == '__main__':
     app.secret_key = "supersekrit"
