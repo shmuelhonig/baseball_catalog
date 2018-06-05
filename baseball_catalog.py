@@ -120,6 +120,26 @@ def deletePlayer(team_id, player_id):
         return render_template('deletePlayer.html', team_id=team_id,\
             playerToDelete=playerToDelete)
 
+# JSON endpoint for teams
+@app.route('/teams/api/json/')
+def showTeamsJSON():
+    teams = session.query(Teams).order_by(asc(Teams.name)).all()
+    return jsonify(teams=[t.serialize for t in teams])
+
+#JSON endpoint for rosters
+@app.route('/<team_id>/roster/api/json/')
+def showRosterJSON(team_id):
+    team = session.query(Teams).filter_by(id=team_id).one()
+    roster = session.query(Players).filter_by(team_id=team.id).\
+             order_by(asc(Players.name)).all()
+    return jsonify(roster=[p.serialize for p in roster])
+
+#JSON endpoint for all players
+@app.route('/allplayers/api/json/')
+def showAllPlayersJSON():
+    allPlayers = session.query(Players).order_by(asc(Players.name)).all()
+    return jsonify(allPlayers=[a.serialize for a in allPlayers])
+
 
 if __name__ == '__main__':
     app.secret_key = "supersekrit"
