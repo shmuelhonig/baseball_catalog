@@ -14,9 +14,16 @@
       {% endif %}
     {% endwith %}
   </div>
+  <a href='{{url_for('newPlayer', team_id=team.id)}}'>Create new player</a>
   {% for p in roster %}
   <div>
     {{p.name}}     Position: {{p.position}}     Number: {{p.number}}     Handedness: {{p.handedness}}
+  </div>
+  <div>
+    <a href='{{url_for('editPlayer', team_id=team.id, player_id=p.id)}}'>Edit</a>
+  </div>
+  <div>
+    <a href='{{url_for('deletePlayer', team_id=team.id, player_id=p.id)}}'>Delete</a>
   </div>
   {% endfor %}
 {% endblock %}
