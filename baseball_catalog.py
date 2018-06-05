@@ -70,6 +70,22 @@ def showRoster(team_id):
              order_by(asc(Players.name))
     return render_template('roster.html', roster=roster, team=team)
 
+# Create new player
+@app.route('/<team_id>/roster/new', methods=['GET', 'POST'])
+def newPlayer(team_id):
+    team = session.query(Teams).filter_by(id=team_id).one()
+    if request.method == 'POST':
+        newPlayer = Players(name=request.form['name'],\
+            position=request.form['position'], number=request.form['number'],\
+            handedness=request.form['handedness'],\
+            team_id=team_id)
+        session.add(newPlayer)
+        session.commit()
+        flash('Successfully added %s' % (newPlayer.name))
+        return redirect(url_for('showRoster', team_id=team_id))
+    else:
+        return render_template('newPlayer.html', team=team, team_id=team_id)
+
 
 if __name__ == '__main__':
     app.secret_key = "supersekrit"

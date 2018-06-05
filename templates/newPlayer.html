@@ -1,0 +1,44 @@
+{% extends "main.html" %}
+{% block content %}
+  <div>
+    Adding player to {{team.name}}
+  </div>
+  <form action=# method='post'>
+    <div>
+      <label for='playerName'>Name:</label>
+      <input type='text' id='playerName' name='name'>
+    </div>
+    <div>
+      <label for='playerPosition1'>1B:</label>
+      <input type='radio' id='playerPosition1' name='position' value='1B'>
+      <label for='playerPosition2'>2B:</label>
+      <input type='radio' id='playerPosition2' name='position' value='2B'>
+      <label for='playerPosition3'>3B:</label>
+      <input type='radio' id='playerPosition3' name='position' value='3B'>
+      <label for='playerPosition4'>SS:</label>
+      <input type='radio' id='playerPosition4' name='position' value='SS'>
+      <label for='playerPosition5'>LF:</label>
+      <input type='radio' id='playerPosition5' name='position' value='LF'>
+      <label for='playerPosition6'>CF:</label>
+      <input type='radio' id='playerPosition6' name='position' value='CF'>
+      <label for='playerPosition7'>RF:</label>
+      <input type='radio' id='playerPosition7' name='position' value='RF'>
+      <label for='playerPosition8'>C:</label>
+      <input type='radio' id='playerPosition8' name='position' value='C'>
+      <label for='playerPosition9'>P:</label>
+      <input type='radio' id='playerPosition9' name='position' value='P'>
+    </div>
+    <div>
+      <label for='playerNumber'>Number:</label>
+      <input type='number' id='playerNumber' name='number' min='0' max='99'>
+    </div>
+    <div>
+      <label for='playerHandedness1'>R:</label>
+      <input type='radio' id='playerHandedness1' name='handedness' value='R'>
+      <label for='playerHandedness2'>L:</label>
+      <input type='radio' id='playerHandedness2' name='handedness' value='L'>
+    </div>
+    <button type='submit'>Create</button>
+  </form>
+  <a href='{{url_for('showTeams')}}'>Cancel</a>
+{% endblock %}
