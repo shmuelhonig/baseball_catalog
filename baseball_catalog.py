@@ -86,6 +86,27 @@ def newPlayer(team_id):
     else:
         return render_template('newPlayer.html', team=team, team_id=team_id)
 
+# Edit player
+@app.route('/<team_id>/<player_id>/edit', methods=['GET', 'POST'])
+def editPlayer(team_id, player_id):
+    playerToUpdate = session.query(Players).filter_by(id=player_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            playerToUpdate.name = request.form['name']
+        if request.form['position']:
+            playerToUpdate.position = request.form['position']
+        if request.form['number']:
+            playerToUpdate.number = request.form['number']
+        if request.form['handedness']:
+            playerToUpdate.handedness = request.form['handedness']
+        session.add(playerToUpdate)
+        session.commit()
+        flash('Successfully updated %s' % (playerToUpdate.name))
+        return redirect(url_for('showRoster', team_id=team_id))
+    else:
+        return render_template('editPlayer.html', team_id=team_id,\
+            playerToUpdate=playerToUpdate)
+
 
 if __name__ == '__main__':
     app.secret_key = "supersekrit"
