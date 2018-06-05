@@ -49,7 +49,7 @@ def editTeam(team_id):
         return render_template('editTeam.html', oldname=oldName, team_id=team_id)
 
 # Delete team
-@app.route('/<team_id>/delete', methods=['GET', 'POST'])
+@app.route('/<team_id>/delete/', methods=['GET', 'POST'])
 def deleteTeam(team_id):
     teamToDelete = session.query(Teams).filter_by(id=team_id).one()
     if request.method == 'POST':
@@ -71,7 +71,7 @@ def showRoster(team_id):
     return render_template('roster.html', roster=roster, team=team)
 
 # Create new player
-@app.route('/<team_id>/roster/new', methods=['GET', 'POST'])
+@app.route('/<team_id>/roster/new/', methods=['GET', 'POST'])
 def newPlayer(team_id):
     team = session.query(Teams).filter_by(id=team_id).one()
     if request.method == 'POST':
@@ -87,7 +87,7 @@ def newPlayer(team_id):
         return render_template('newPlayer.html', team=team, team_id=team_id)
 
 # Edit player
-@app.route('/<team_id>/<player_id>/edit', methods=['GET', 'POST'])
+@app.route('/<team_id>/<player_id>/edit/', methods=['GET', 'POST'])
 def editPlayer(team_id, player_id):
     playerToUpdate = session.query(Players).filter_by(id=player_id).one()
     if request.method == 'POST':
@@ -108,7 +108,7 @@ def editPlayer(team_id, player_id):
             playerToUpdate=playerToUpdate)
 
 # Delete player
-@app.route('/<team_id>/<player_id>/delete', methods=['GET', 'POST'])
+@app.route('/<team_id>/<player_id>/delete/', methods=['GET', 'POST'])
 def deletePlayer(team_id, player_id):
     playerToDelete = session.query(Players).filter_by(id=player_id).one()
     if request.method == 'POST':
