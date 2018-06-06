@@ -6,6 +6,9 @@ from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from models import Base, Users, Teams, Players
 
+# Imports for using Flask_Dance
+from flask_dance.contrib.google import make_google_blueprint, google
+
 app = Flask(__name__)
 
 engine = create_engine('sqlite:///baseball.db')
@@ -15,12 +18,39 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+# Flask_Dance code for Google sign-in
+blueprint = make_google_blueprint(
+    client_id="1040126620381-5sem9r51c2qic7l4utomj6hom8a6a4mn.apps.googleusercontent.com",
+    client_secret="I9whaUHlwFfkbLQ2U0Od9jku",
+    scope=["profile", "email"],
+    offline=True,
+    redirect_url="http://localhost:8000/teams"
+)
+app.register_blueprint(blueprint, url_prefix="/login")
+
+@app.route("/google/login")
+def googleLogin():
+    if not google.authorized:
+        return redirect(url_for("google.login"))
+    resp = google.get("/oauth2/v2/userinfo")
+    login_session['provider'] = 'google'
+    login_session['name'] = resp.json()['name']
+    login_session['email'] = resp.json()['email']
+
+    assert resp.ok, resp.text
+    return redirect("http://localhost:8000/teams")
+
+
 # Show all Teams
 @app.route('/')
 @app.route('/teams/')
 def showTeams():
     teams = session.query(Teams).order_by(asc(Teams.name))
-    return render_template('teams.html', teams=teams)
+    if not google.authorized:
+        return render_template('publicteams.html', teams=teams)
+    else:
+        return render_template('teams.html', teams=teams)
+
 
 # Create new team
 @app.route('/teams/new/', methods=['GET','POST'])
