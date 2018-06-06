@@ -81,6 +81,8 @@ def showTeams():
 # Create new team
 @app.route('/teams/new/', methods=['GET','POST'])
 def newTeam():
+    if not google.authorized:
+        return "You are not authorized to create a team. Please log in."
     if request.method == 'POST':
         newTeam = Teams(name=request.form['name'],\
             user_id=login_session['user_id'])
@@ -125,7 +127,17 @@ def showRoster(team_id):
     team = session.query(Teams).filter_by(id=team_id).one()
     roster = session.query(Players).filter_by(team_id=team.id).\
              order_by(asc(Players.name))
-    return render_template('roster.html', roster=roster, team=team)
+    if not google.authorized:
+        return render_template('publicroster.html', roster=roster, team=team)
+    else:
+        # if owner
+        if team.user_id == getUserID(login_session['email']):
+            return render_template('roster.html', roster=roster, team=team)
+        # if not owner
+        else:
+            return render_template('publicroster.html', roster=roster, team=team)
+
+
 
 # Create new player
 @app.route('/<team_id>/roster/new/', methods=['GET', 'POST'])
