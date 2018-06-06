@@ -82,7 +82,7 @@ def showTeams():
 @app.route('/teams/new/', methods=['GET','POST'])
 def newTeam():
     if not google.authorized:
-        return "You are not authorized to create a team. Please log in."
+        return "You are not authorized to view this page. Please log in."
     if request.method == 'POST':
         newTeam = Teams(name=request.form['name'],\
             user_id=login_session['user_id'])
@@ -105,7 +105,16 @@ def editTeam(team_id):
         flash('Successfully renamed %s to %s' % (oldName, teamToUpdate.name))
         return redirect(url_for('showTeams'))
     else:
-        return render_template('editTeam.html', oldname=oldName, team_id=team_id)
+        if not google.authorized:
+            return "You are not authorized to view this page. Please log in."
+        else:
+            # if owner
+            if teamToUpdate.user_id == getUserID(login_session['email']):
+                return render_template('editTeam.html', oldname=oldName,\
+                    team_id=team_id)
+            #if not owner
+            else:
+                return "You are not the owner of the team or player."
 
 # Delete team
 @app.route('/<team_id>/delete/', methods=['GET', 'POST'])
@@ -117,7 +126,16 @@ def deleteTeam(team_id):
         flash('Successfully deleted the %s' % (teamToDelete.name))
         return redirect(url_for('showTeams'))
     else:
-        return render_template('deleteTeam.html', teamToDelete=teamToDelete)
+        if not google.authorized:
+            return "You are not authorized to view this page. Please log in."
+        else:
+            # if owner
+            if teamToDelete.user_id == getUserID(login_session['email']):
+                return render_template('deleteTeam.html',\
+                    teamToDelete=teamToDelete)
+            #if not owner
+            else:
+                return "You are not the owner of the team or player."
 
 
 # Show team roster
@@ -153,7 +171,16 @@ def newPlayer(team_id):
         flash('Successfully added %s' % (newPlayer.name))
         return redirect(url_for('showRoster', team_id=team_id))
     else:
-        return render_template('newPlayer.html', team=team, team_id=team_id)
+        if not google.authorized:
+            return "You are not authorized to view this page. Please log in."
+        else:
+            # if owner
+            if team.user_id == getUserID(login_session['email']):
+                return render_template('newPlayer.html', team=team,\
+                    team_id=team_id)
+            #if not owner
+            else:
+                return "You are not the owner of the team or player."
 
 # Edit player
 @app.route('/<team_id>/<player_id>/edit/', methods=['GET', 'POST'])
@@ -173,8 +200,16 @@ def editPlayer(team_id, player_id):
         flash('Successfully updated %s' % (playerToUpdate.name))
         return redirect(url_for('showRoster', team_id=team_id))
     else:
-        return render_template('editPlayer.html', team_id=team_id,\
-            playerToUpdate=playerToUpdate)
+        if not google.authorized:
+            return "You are not authorized to view this page. Please log in."
+        else:
+            # if owner
+            if playerToUpdate.user_id == getUserID(login_session['email']):
+                return render_template('editPlayer.html', team_id=team_id,\
+                    playerToUpdate=playerToUpdate)
+            #if not owner
+            else:
+                return "You are not the owner of the team or player."
 
 # Delete player
 @app.route('/<team_id>/<player_id>/delete/', methods=['GET', 'POST'])
@@ -186,8 +221,17 @@ def deletePlayer(team_id, player_id):
         flash('Successfully deleted %s' % (playerToDelete.name))
         return redirect(url_for('showRoster', team_id=team_id))
     else:
-        return render_template('deletePlayer.html', team_id=team_id,\
-            playerToDelete=playerToDelete)
+        if not google.authorized:
+            return "You are not authorized to view this page. Please log in."
+        else:
+            # if owner
+            if playerToDelete.user_id == getUserID(login_session['email']):
+                return render_template('deletePlayer.html', team_id=team_id,\
+                    playerToDelete=playerToDelete)
+            #if not owner
+            else:
+                return "You are not the owner of the team or player."
+
 
 # JSON endpoint for teams
 @app.route('/teams/api/json/')
