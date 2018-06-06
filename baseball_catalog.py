@@ -82,7 +82,8 @@ def showTeams():
 @app.route('/teams/new/', methods=['GET','POST'])
 def newTeam():
     if request.method == 'POST':
-        newTeam = Teams(name=request.form['name'])
+        newTeam = Teams(name=request.form['name'],\
+            user_id=login_session['user_id'])
         session.add(newTeam)
         session.commit()
         flash('New team %s successfully created' % newTeam.name)
@@ -134,7 +135,7 @@ def newPlayer(team_id):
         newPlayer = Players(name=request.form['name'],\
             position=request.form['position'], number=request.form['number'],\
             handedness=request.form['handedness'],\
-            team_id=team_id)
+            team_id=team_id, user_id=login_session['user_id'])
         session.add(newPlayer)
         session.commit()
         flash('Successfully added %s' % (newPlayer.name))
