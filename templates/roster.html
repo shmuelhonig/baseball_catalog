@@ -2,6 +2,8 @@
 {% block content %}
   <div>
     {{ team.name}}
+    <a href='{{url_for('editTeam', team_id=team.id)}}'>Edit</a>
+    <a href='{{url_for('deleteTeam', team_id=team.id)}}'>Delete</a>
   </div>
   <div class = 'flash'>
     {% with messages = get_flashed_messages() %}

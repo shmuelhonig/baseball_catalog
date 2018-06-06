@@ -15,8 +15,6 @@
   {% for t in teams %}
   <div>
     <a href='{{url_for('showRoster', team_id=t.id)}}'>{{t.name}}</a>
-    <a href='{{url_for('editTeam', team_id=t.id)}}'>Edit</a>
-    <a href='{{url_for('deleteTeam', team_id=t.id)}}'>Delete</a>
   </div>
   {% endfor %}
 {% endblock %}
