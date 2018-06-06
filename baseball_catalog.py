@@ -18,6 +18,27 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+# helper function - create user and return user id
+def createUser(login_session):
+    newUser = User(name = login_session['name'], email = login_session['email'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+# helper function - take in user id and return user object
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+# helper function - take in user email and return user id
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
+
 # Flask_Dance code for Google sign-in
 blueprint = make_google_blueprint(
     client_id="1040126620381-5sem9r51c2qic7l4utomj6hom8a6a4mn.apps.googleusercontent.com",
@@ -36,7 +57,12 @@ def googleLogin():
     login_session['provider'] = 'google'
     login_session['name'] = resp.json()['name']
     login_session['email'] = resp.json()['email']
-
+    # check to see if user exists, if not then create one
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        user_id = createUser(login_session)
+    # store user_id in session
+    login_session['user_id'] = user_id
     assert resp.ok, resp.text
     return redirect("http://localhost:8000/teams")
 
