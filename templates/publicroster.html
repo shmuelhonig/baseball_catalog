@@ -1,0 +1,22 @@
+{% extends "main.html" %}
+{% block content %}
+  <div>
+    {{ team.name}}
+  </div>
+  <div class = 'flash'>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+          <li> {{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+  </div>
+  {% for p in roster %}
+    <div>
+      {{p.name}}     Position: {{p.position}}     Number: {{p.number}}     Handedness: {{p.handedness}}
+    </div>
+  {% endfor %}
+{% endblock %}
