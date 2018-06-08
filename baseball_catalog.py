@@ -20,21 +20,22 @@ session = DBSession()
 
 # helper function - create user and return user id
 def createUser(login_session):
-    newUser = User(name = login_session['name'], email = login_session['email'])
+    newUser = Users(name = login_session['name'], email =\
+        login_session['email'])
     session.add(newUser)
     session.commit()
-    user = session.query(User).filter_by(email=login_session['email']).one()
+    user = session.query(Users).filter_by(email=login_session['email']).one()
     return user.id
 
 # helper function - take in user id and return user object
 def getUserInfo(user_id):
-    user = session.query(User).filter_by(id=user_id).one()
+    user = session.query(Users).filter_by(id=user_id).one()
     return user
 
 # helper function - take in user email and return user id
 def getUserID(email):
     try:
-        user = session.query(User).filter_by(email=email).one()
+        user = session.query(Users).filter_by(email=email).one()
         return user.id
     except:
         return None
