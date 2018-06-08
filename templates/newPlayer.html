@@ -4,6 +4,7 @@
     Adding player to {{team.name}}
   </div>
   <form action=# method='post'>
+    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
     <div>
       <label for='playerName'>Name:</label>
       <input type='text' id='playerName' name='name'>

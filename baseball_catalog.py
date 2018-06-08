@@ -85,6 +85,10 @@ def newTeam():
     if not google.authorized:
         return "You are not authorized to view this page. Please log in."
     if request.method == 'POST':
+        # Check csrf token
+        if request.form['csrf_token'] != login_session.pop('csrf_token', None):
+            return "You are not authorized to make changes"
+
         newTeam = Teams(name=request.form['name'],\
             user_id=login_session['user_id'])
         session.add(newTeam)
@@ -92,6 +96,10 @@ def newTeam():
         flash('New team %s successfully created' % newTeam.name)
         return redirect(url_for('showTeams'))
     else:
+        # Create and store csrf token before rendering template
+        state = ''.join(random.choice(string.ascii_uppercase + string.digits)\
+            for x in xrange(32))
+        login_session['csrf_token'] = state
         return render_template('newTeam.html')
 
 # Edit team name
@@ -100,6 +108,10 @@ def editTeam(team_id):
     teamToUpdate = session.query(Teams).filter_by(id=team_id).one()
     oldName = teamToUpdate.name
     if request.method == 'POST':
+        # Check csrf token
+        if request.form['csrf_token'] != login_session.pop('csrf_token', None):
+            return "You are not authorized to make changes"
+
         teamToUpdate.name = request.form['newname']
         session.add(teamToUpdate)
         session.commit()
@@ -111,6 +123,10 @@ def editTeam(team_id):
         else:
             # if owner
             if teamToUpdate.user_id == getUserID(login_session['email']):
+                # Create and store csrf token before rendering template
+                state = ''.join(random.choice(string.ascii_uppercase\
+                    + string.digits) for x in xrange(32))
+                login_session['csrf_token'] = state
                 return render_template('editTeam.html', oldname=oldName,\
                     team_id=team_id)
             #if not owner
@@ -122,6 +138,10 @@ def editTeam(team_id):
 def deleteTeam(team_id):
     teamToDelete = session.query(Teams).filter_by(id=team_id).one()
     if request.method == 'POST':
+        # Check csrf token
+        if request.form['csrf_token'] != login_session.pop('csrf_token', None):
+            return "You are not authorized to make changes"
+
         session.delete(teamToDelete)
         session.commit()
         flash('Successfully deleted the %s' % (teamToDelete.name))
@@ -132,6 +152,10 @@ def deleteTeam(team_id):
         else:
             # if owner
             if teamToDelete.user_id == getUserID(login_session['email']):
+                # Create and store csrf token before rendering template
+                state = ''.join(random.choice(string.ascii_uppercase\
+                    + string.digits) for x in xrange(32))
+                login_session['csrf_token'] = state
                 return render_template('deleteTeam.html',\
                     teamToDelete=teamToDelete)
             #if not owner
@@ -162,6 +186,10 @@ def showRoster(team_id):
 def newPlayer(team_id):
     team = session.query(Teams).filter_by(id=team_id).one()
     if request.method == 'POST':
+        # Check csrf token
+        if request.form['csrf_token'] != login_session.pop('csrf_token', None):
+            return "You are not authorized to make changes"
+
         newPlayer = Players(name=request.form['name'],\
             position=request.form['position'], number=request.form['number'],\
             handedness=request.form['handedness'],\
@@ -176,6 +204,10 @@ def newPlayer(team_id):
         else:
             # if owner
             if team.user_id == getUserID(login_session['email']):
+                # Create and store csrf token before rendering template
+                state = ''.join(random.choice(string.ascii_uppercase\
+                    + string.digits) for x in xrange(32))
+                login_session['csrf_token'] = state
                 return render_template('newPlayer.html', team=team,\
                     team_id=team_id)
             #if not owner
@@ -187,6 +219,10 @@ def newPlayer(team_id):
 def editPlayer(team_id, player_id):
     playerToUpdate = session.query(Players).filter_by(id=player_id).one()
     if request.method == 'POST':
+        # Check csrf token
+        if request.form['csrf_token'] != login_session.pop('csrf_token', None):
+            return "You are not authorized to make changes"
+
         if request.form['name']:
             playerToUpdate.name = request.form['name']
         if request.form['position']:
@@ -205,6 +241,10 @@ def editPlayer(team_id, player_id):
         else:
             # if owner
             if playerToUpdate.user_id == getUserID(login_session['email']):
+                # Create and store csrf token before rendering template
+                state = ''.join(random.choice(string.ascii_uppercase\
+                    + string.digits) for x in xrange(32))
+                login_session['csrf_token'] = state
                 return render_template('editPlayer.html', team_id=team_id,\
                     playerToUpdate=playerToUpdate)
             #if not owner
@@ -216,6 +256,10 @@ def editPlayer(team_id, player_id):
 def deletePlayer(team_id, player_id):
     playerToDelete = session.query(Players).filter_by(id=player_id).one()
     if request.method == 'POST':
+        # Check csrf token
+        if request.form['csrf_token'] != login_session.pop('csrf_token', None):
+            return "You are not authorized to make changes"
+
         session.delete(playerToDelete)
         session.commit()
         flash('Successfully deleted %s' % (playerToDelete.name))
@@ -226,6 +270,10 @@ def deletePlayer(team_id, player_id):
         else:
             # if owner
             if playerToDelete.user_id == getUserID(login_session['email']):
+                # Create and store csrf token before rendering template
+                state = ''.join(random.choice(string.ascii_uppercase\
+                    + string.digits) for x in xrange(32))
+                login_session['csrf_token'] = state
                 return render_template('deletePlayer.html', team_id=team_id,\
                     playerToDelete=playerToDelete)
             #if not owner

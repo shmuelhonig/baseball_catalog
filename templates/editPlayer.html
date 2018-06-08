@@ -4,6 +4,7 @@
     Updating {{playerToUpdate.name}}
   </div>
   <form action=# method='post'>
+    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
     <div>
       Current name: {{playerToUpdate.name}}
       <label for='playerName'>Name:</label>
