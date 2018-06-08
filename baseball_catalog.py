@@ -140,7 +140,6 @@ def deleteTeam(team_id):
 
 
 # Show team roster
-@app.route('/<team_id>/')
 @app.route('/<team_id>/roster/')
 def showRoster(team_id):
     team = session.query(Teams).filter_by(id=team_id).one()
