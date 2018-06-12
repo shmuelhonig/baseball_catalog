@@ -46,7 +46,7 @@ blueprint = make_google_blueprint(
     client_secret="I9whaUHlwFfkbLQ2U0Od9jku",
     scope=["profile", "email"],
     offline=True,
-    redirect_url="http://localhost:8000/teams"
+    redirect_url="http://localhost:8000/google/login"
 )
 app.register_blueprint(blueprint, url_prefix="/login")
 
