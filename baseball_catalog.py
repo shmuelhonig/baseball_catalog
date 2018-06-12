@@ -6,10 +6,14 @@ from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from models import Base, Users, Teams, Players
 
+from flask_httpauth import HTTPBasicAuth
+
 # Imports for using Flask_Dance
 from flask_dance.contrib.google import make_google_blueprint, google
 
 app = Flask(__name__)
+
+auth = HTTPBasicAuth()
 
 engine = create_engine('sqlite:///baseball.db')
 Base.metadata.bind = engine
@@ -297,14 +301,35 @@ def deletePlayer(team_id, player_id):
                 return "You are not the owner of the team or player."
 
 
+# verifying a token for API access
+@auth.verify
+def verify(token):
+    user_id = Users.verify_auth_token(token)
+    if user_id:
+      user = session.query(User).filter_by(id=user_id).one()
+    else:
+        return False
+    g.user = user
+    return True
+
+# route for getting token to access API
+@app.route('/token/')
+def get_token():
+    if not google.authorized:
+        return "You are not authorized. Please log in."
+    token = g.user.generate_auth_token(600) # g???????????????
+    return jsonify({'token': token.decode('ascii')})
+
 # JSON endpoint for teams
 @app.route('/teams/api/json/')
+@auth.login_required
 def showTeamsJSON():
     teams = session.query(Teams).order_by(asc(Teams.name)).all()
     return jsonify(teams=[t.serialize for t in teams])
 
 #JSON endpoint for rosters
 @app.route('/<team_id>/roster/api/json/')
+@auth.login_required
 def showRosterJSON(team_id):
     team = session.query(Teams).filter_by(id=team_id).one()
     roster = session.query(Players).filter_by(team_id=team.id).\
@@ -313,6 +338,7 @@ def showRosterJSON(team_id):
 
 #JSON endpoint for all players
 @app.route('/allplayers/api/json/')
+@auth.login_required
 def showAllPlayersJSON():
     allPlayers = session.query(Players).order_by(asc(Players.name)).all()
     return jsonify(allPlayers=[a.serialize for a in allPlayers])
