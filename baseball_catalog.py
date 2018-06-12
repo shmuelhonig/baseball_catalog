@@ -67,6 +67,19 @@ def googleLogin():
     assert resp.ok, resp.text
     return redirect("http://localhost:8000/teams")
 
+@app.route("/logout")
+def logout():
+    if login_session['provider'] == 'google':
+        try:
+            google.get("https://accounts.google.com/o/oauth2/revoke?token=" + google.access_token)
+        except:
+            pass
+        try:
+            del blueprint.token
+        except:
+            pass
+    return redirect("http://localhost:8000/teams")
+
 
 # Show all Teams
 @app.route('/')
