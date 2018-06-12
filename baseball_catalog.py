@@ -78,6 +78,9 @@ def logout():
             del blueprint.token
         except:
             pass
+        login_session.pop('name', None)
+        login_session.pop('email', None)
+        login_session.pop('user_id', None)
     return redirect("http://localhost:8000/teams")
 
 
