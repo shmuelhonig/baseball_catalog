@@ -306,7 +306,7 @@ def deletePlayer(team_id, player_id):
 def verify(token):
     user_id = Users.verify_auth_token(token)
     if user_id:
-      user = session.query(User).filter_by(id=user_id).one()
+      user = session.query(Users).filter_by(id=user_id).one()
     else:
         return False
     g.user = user
