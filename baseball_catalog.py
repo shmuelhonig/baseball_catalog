@@ -317,6 +317,8 @@ def verify(token):
 def get_token():
     if not google.authorized:
         return "You are not authorized. Please log in."
+    user = session.query(Users).filter_by(id=login_session['user_id']).one()
+    g.user = user
     token = g.user.generate_auth_token(600) # g???????????????
     return jsonify({'token': token.decode('ascii')})
 
