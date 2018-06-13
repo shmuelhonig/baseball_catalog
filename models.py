@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
 
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
+import random, string
 
 Base = declarative_base()
 
