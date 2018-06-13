@@ -6,14 +6,14 @@ from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from models import Base, Users, Teams, Players
 
-from flask_httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPTokenAuth
 
 # Imports for using Flask_Dance
 from flask_dance.contrib.google import make_google_blueprint, google
 
 app = Flask(__name__)
 
-auth = HTTPBasicAuth()
+auth = HTTPTokenAuth(scheme='Token')
 
 engine = create_engine('sqlite:///baseball.db')
 Base.metadata.bind = engine
@@ -302,7 +302,7 @@ def deletePlayer(team_id, player_id):
 
 
 # verifying a token for API access
-@auth.verify
+@auth.verify_token
 def verify(token):
     user_id = Users.verify_auth_token(token)
     if user_id:
