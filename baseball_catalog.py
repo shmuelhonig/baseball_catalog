@@ -319,7 +319,7 @@ def get_token():
         return "You are not authorized. Please log in."
     user = session.query(Users).filter_by(id=login_session['user_id']).one()
     g.user = user
-    token = g.user.generate_auth_token(600) # g???????????????
+    token = g.user.generate_auth_token(600)
     return jsonify({'token': token.decode('ascii')})
 
 # JSON endpoint for teams
