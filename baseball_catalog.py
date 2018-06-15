@@ -11,7 +11,17 @@ from flask_httpauth import HTTPTokenAuth
 # Imports for using Flask_Dance
 from flask_dance.contrib.google import make_google_blueprint, google
 
+# Imports for using Flask-Limiter
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
 app = Flask(__name__)
+
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["100 per day", "25 per hour"]
+)
 
 auth = HTTPTokenAuth(scheme='Token')
 
@@ -325,6 +335,7 @@ def get_token():
 # JSON endpoint for teams
 @app.route('/teams/api/json/')
 @auth.login_required
+@limiter.limit("2/minute")
 def showTeamsJSON():
     teams = session.query(Teams).order_by(asc(Teams.name)).all()
     return jsonify(teams=[t.serialize for t in teams])
@@ -332,6 +343,7 @@ def showTeamsJSON():
 #JSON endpoint for rosters
 @app.route('/<team_id>/roster/api/json/')
 @auth.login_required
+@limiter.limit("2/minute")
 def showRosterJSON(team_id):
     team = session.query(Teams).filter_by(id=team_id).one()
     roster = session.query(Players).filter_by(team_id=team.id).\
@@ -341,6 +353,7 @@ def showRosterJSON(team_id):
 #JSON endpoint for all players
 @app.route('/allplayers/api/json/')
 @auth.login_required
+@limiter.limit("2/minute")
 def showAllPlayersJSON():
     allPlayers = session.query(Players).order_by(asc(Players.name)).all()
     return jsonify(allPlayers=[a.serialize for a in allPlayers])
