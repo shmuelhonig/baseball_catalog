@@ -6,15 +6,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Baseball Catalog</title>
   </head>
-  <body>
-    <header>
-      <div class='col-md-6'>Baseball Catalog</div>
-      <div class='col-md-2 text-right'>
-        {% if session['name'] %}
-          <a href="{{ url_for('logout')}}">Logout</a>
-        {% else %}
-          <a href="{{ url_for('googleLogin')}}">Login</a>
-        {% endif %}
+  <body class="bg-success">
+    <header class="jumbotron bg-success">
+      <div>
+        <div class="row">
+          <div class="display-2 col-md text-center">Baseball Catalog</div>
+          <div class="col-md-2 text-center">
+            {% if session['name'] %}
+              <a href="{{ url_for('logout')}}" class="text-dark">Logout</a>
+            {% else %}
+              <a href="{{ url_for('googleLogin')}}" class="text-dark">Login</a>
+            {% endif %}
+          </div>
+        </div>
       </div>
     </header>
     {% block content %}
