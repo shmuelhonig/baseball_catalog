@@ -1,6 +1,6 @@
 {% extends "main.html" %}
 {% block content %}
-  <div class = 'flash'>
+  <div class="flash">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul>
@@ -11,10 +11,14 @@
       {% endif %}
     {% endwith %}
   </div>
-  <a href='{{url_for('newTeam')}}'>Create new team</a>
-  {% for t in teams %}
-  <div>
-    <a href='{{url_for('showRoster', team_id=t.id)}}'>{{t.name}}</a>
+  <div class="container-fluid mb-2">
+    <a href="{{url_for('newTeam')}}" class="text-dark">Create new team</a>
   </div>
+  {% for t in teams %}
+    <div class="container-fluid">
+      <h3>
+        <a href="{{url_for('showRoster', team_id=t.id)}}" class="text-dark">{{t.name}}</a>
+      </h3>
+    </div>
   {% endfor %}
 {% endblock %}
