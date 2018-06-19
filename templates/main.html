@@ -11,7 +11,7 @@
       <div>
         <div class="row">
           <div class="display-2 col-md text-center">Baseball Catalog</div>
-          <div class="col-md-2 text-center">
+          <div class="col-md-2 text-left">
             {% if session['name'] %}
               <a href="{{ url_for('logout')}}" class="text-dark">Logout</a>
             {% else %}
@@ -21,8 +21,10 @@
         </div>
       </div>
     </header>
-    {% block content %}
+    <main class="container">
+      {% block content %}
 
-    {% endblock %}
+      {% endblock %}
+    </main>
   </body>
 </html>
