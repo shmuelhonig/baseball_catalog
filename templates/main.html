@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <title>Baseball Catalog</title>
   </head>
   <body class="bg-success">
     <header class="jumbotron bg-success">
       <div>
         <div class="row">
-          <div class="display-2 col-md text-center">Baseball Catalog</div>
-          <div class="col-md-2 text-left">
+          <div class="col-md text-center header-text">Baseball Catalog</div>
+          <div class="col-md-2 text-center">
             {% if session['name'] %}
               <a href="{{ url_for('logout')}}" class="text-dark">Logout</a>
             {% else %}
