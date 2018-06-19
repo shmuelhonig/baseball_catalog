@@ -1,11 +1,11 @@
 {% extends "main.html" %}
 {% block content %}
-  <div>
-    {{ team.name}}
-    <a href='{{url_for('editTeam', team_id=team.id)}}'>Edit</a>
-    <a href='{{url_for('deleteTeam', team_id=team.id)}}'>Delete</a>
+  <div class="container-fluid mb-2">
+    <h2 class="mb-0">{{ team.name}}</h2>
+    <a href="{{url_for('editTeam', team_id=team.id)}}" class="text-dark">Edit</a>
+    <a href="{{url_for('deleteTeam', team_id=team.id)}}" class="text-dark">Delete</a>
   </div>
-  <div class = 'flash'>
+  <div class="flash">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul>
@@ -16,16 +16,21 @@
       {% endif %}
     {% endwith %}
   </div>
-  <a href='{{url_for('newPlayer', team_id=team.id)}}'>Create new player</a>
+  <div class="container-fluid mb-4">
+    <a href="{{url_for('newPlayer', team_id=team.id)}}" class="text-dark">Create new player</a>
+  </div>
   {% for p in roster %}
-  <div>
-    {{p.name}}     Position: {{p.position}}     Number: {{p.number}}     Handedness: {{p.handedness}}
+  <div class="container-fluid">
+    <h4 class="mb-0">{{p.name}}</h4>
+    <div>
+      <span class="mr-3">Position: {{p.position}}</span>
+      <span class="mr-3">Number: {{p.number}}</span>
+      <span>Handedness: {{p.handedness}}</span>
+    </div>
   </div>
-  <div>
-    <a href='{{url_for('editPlayer', team_id=team.id, player_id=p.id)}}'>Edit</a>
-  </div>
-  <div>
-    <a href='{{url_for('deletePlayer', team_id=team.id, player_id=p.id)}}'>Delete</a>
+  <div class="container-fluid mb-3">
+    <a href="{{url_for('editPlayer', team_id=team.id, player_id=p.id)}}" class="text-dark">Edit</a>
+    <a href="{{url_for('deletePlayer', team_id=team.id, player_id=p.id)}}" class="text-dark">Delete</a>
   </div>
   {% endfor %}
 {% endblock %}

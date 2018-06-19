@@ -1,9 +1,9 @@
 {% extends "main.html" %}
 {% block content %}
-  <div>
-    {{ team.name}}
+  <div class="container-fluid mb-3">
+    <h2>{{ team.name}}</h2>
   </div>
-  <div class = 'flash'>
+  <div class="flash">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul>
@@ -15,8 +15,13 @@
     {% endwith %}
   </div>
   {% for p in roster %}
+  <div class="container-fluid mb-3">
+    <h4 class="mb-0">{{p.name}}</h4>
     <div>
-      {{p.name}}     Position: {{p.position}}     Number: {{p.number}}     Handedness: {{p.handedness}}
+      <span class="mr-3">Position: {{p.position}}</span>
+      <span class="mr-3">Number: {{p.number}}</span>
+      <span>Handedness: {{p.handedness}}</span>
     </div>
+  </div>
   {% endfor %}
 {% endblock %}
