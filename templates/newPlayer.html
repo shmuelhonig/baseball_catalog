@@ -1,15 +1,14 @@
 {% extends "main.html" %}
 {% block content %}
-  <div>
-    Adding player to {{team.name}}
-  </div>
+<div class='container-fluid'>
+  <h4 class'mb-4'>Adding player to {{team.name}}</h4>
   <form action=# method='post'>
-    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
-    <div>
+    <input type='hidden' name='csrf_token' value="{{ session['csrf_token'] }}">
+    <div class='form-group'>
       <label for='playerName'>Name:</label>
       <input type='text' id='playerName' name='name'>
     </div>
-    <div>
+    <div class='form-group'> <!-- I like form-group here more than form-check -->
       <label for='playerPosition1'>1B:</label>
       <input type='radio' id='playerPosition1' name='position' value='1B'>
       <label for='playerPosition2'>2B:</label>
@@ -29,11 +28,11 @@
       <label for='playerPosition9'>P:</label>
       <input type='radio' id='playerPosition9' name='position' value='P'>
     </div>
-    <div>
+    <div class='form-group'>
       <label for='playerNumber'>Number:</label>
       <input type='number' id='playerNumber' name='number' min='0' max='99'>
     </div>
-    <div>
+    <div class='form-group'> <!-- I like form-group here more than form-check -->
       <label for='playerHandedness1'>R:</label>
       <input type='radio' id='playerHandedness1' name='handedness' value='R'>
       <label for='playerHandedness2'>L:</label>
@@ -41,5 +40,6 @@
     </div>
     <button type='submit'>Create</button>
   </form>
-  <a href='{{url_for('showRoster', team_id=team_id)}}'>Cancel</a>
+  <a href="{{url_for('showRoster', team_id=team_id)}}" class='text-dark'>Cancel</a>
+</div>
 {% endblock %}
