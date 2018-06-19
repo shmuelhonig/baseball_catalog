@@ -1,9 +1,11 @@
 {% extends "main.html" %}
 {% block content %}
-  <form action=# method='post'>
+<div class="container-fluid">
+  <form action=# method="post">
     <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
     Are you sure you would like to delete the {{teamToDelete.name}}?
-    <button type='submit'>Delete</button>
+    <button type="submit">Delete</button>
   </form>
-  <a href='{{url_for('showTeams')}}'>Cancel</a>
+  <a href="{{url_for('showTeams')}}" class="text-dark">Cancel</a>
+</div>
 {% endblock %}
