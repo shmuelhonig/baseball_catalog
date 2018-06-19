@@ -1,13 +1,17 @@
 {% extends "main.html" %}
 {% block content %}
-  <div>
+<div class="container-fluid">
+  <div class="mb-2">
     Current Name: {{oldname}}
   </div>
-  <form action=# method='post'>
-    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
-    <label for='editTeam'>New Name:</label>
-    <input type='text' id='editTeam' name='newname'>
-    <button type='submit'>Rename</button>
+  <form action=# method="post">
+    <div>
+      <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
+      <label for="editTeam">New Name:</label>
+      <input type="text" id="editTeam" name="newname">
+      <button type="submit">Rename</button>
+    </div>
   </form>
-  <a href='{{url_for('showTeams')}}'>Cancel</a>
+  <a href="{{url_for('showTeams')}}" class="text-dark">Cancel</a>
+</div>
 {% endblock %}
