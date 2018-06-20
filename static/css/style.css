@@ -6,3 +6,15 @@ body {
 .header-text {
   font-size: 3rem;
 }
+
+@media (min-width: 768px) {
+  .header-text {
+    font-size: 4rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .header-text {
+    font-size: 5rem;
+  }
+}
