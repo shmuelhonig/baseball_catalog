@@ -128,7 +128,7 @@ def newTeam():
     else:
         # Create and store csrf token before rendering template
         state = ''.join(random.choice(string.ascii_uppercase + string.digits)\
-            for x in xrange(32))
+            for x in range(32))
         login_session['csrf_token'] = state
         return render_template('newTeam.html')
 
@@ -155,7 +155,7 @@ def editTeam(team_id):
             if teamToUpdate.user_id == getUserID(login_session['email']):
                 # Create and store csrf token before rendering template
                 state = ''.join(random.choice(string.ascii_uppercase\
-                    + string.digits) for x in xrange(32))
+                    + string.digits) for x in range(32))
                 login_session['csrf_token'] = state
                 return render_template('editTeam.html', oldname=oldName,\
                     team_id=team_id)
@@ -184,7 +184,7 @@ def deleteTeam(team_id):
             if teamToDelete.user_id == getUserID(login_session['email']):
                 # Create and store csrf token before rendering template
                 state = ''.join(random.choice(string.ascii_uppercase\
-                    + string.digits) for x in xrange(32))
+                    + string.digits) for x in range(32))
                 login_session['csrf_token'] = state
                 return render_template('deleteTeam.html',\
                     teamToDelete=teamToDelete)
@@ -236,7 +236,7 @@ def newPlayer(team_id):
             if team.user_id == getUserID(login_session['email']):
                 # Create and store csrf token before rendering template
                 state = ''.join(random.choice(string.ascii_uppercase\
-                    + string.digits) for x in xrange(32))
+                    + string.digits) for x in range(32))
                 login_session['csrf_token'] = state
                 return render_template('newPlayer.html', team=team,\
                     team_id=team_id)
@@ -273,7 +273,7 @@ def editPlayer(team_id, player_id):
             if playerToUpdate.user_id == getUserID(login_session['email']):
                 # Create and store csrf token before rendering template
                 state = ''.join(random.choice(string.ascii_uppercase\
-                    + string.digits) for x in xrange(32))
+                    + string.digits) for x in range(32))
                 login_session['csrf_token'] = state
                 return render_template('editPlayer.html', team_id=team_id,\
                     playerToUpdate=playerToUpdate)
@@ -302,7 +302,7 @@ def deletePlayer(team_id, player_id):
             if playerToDelete.user_id == getUserID(login_session['email']):
                 # Create and store csrf token before rendering template
                 state = ''.join(random.choice(string.ascii_uppercase\
-                    + string.digits) for x in xrange(32))
+                    + string.digits) for x in range(32))
                 login_session['csrf_token'] = state
                 return render_template('deletePlayer.html', team_id=team_id,\
                     playerToDelete=playerToDelete)
