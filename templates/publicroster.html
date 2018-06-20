@@ -3,17 +3,6 @@
   <div class="container-fluid mb-3">
     <h2>{{ team.name}}</h2>
   </div>
-  <div class="flash">
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-          <li> {{ message }} </li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-  </div>
   {% for p in roster %}
   <div class="container-fluid mb-3">
     <h4 class="mb-0">{{p.name}}</h4>
