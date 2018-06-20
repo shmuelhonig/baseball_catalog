@@ -11,7 +11,9 @@
     <header class="jumbotron bg-success">
       <div>
         <div class="row">
-          <div class="col-md text-center header-text">Baseball Catalog</div>
+          <div class="col-md text-center header-text">
+            <a href="{{ url_for('showTeams') }}" id="header" class="text-dark">Baseball Catalog</a>
+          </div>
           <div class="col-md-2 text-center">
             {% if session['name'] %}
               <a href="{{ url_for('logout')}}" class="text-dark">Logout</a>

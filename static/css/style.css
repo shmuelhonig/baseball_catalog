@@ -3,6 +3,10 @@ body {
   margin: auto;
 }
 
+#header {
+  text-decoration: none;
+}
+
 .header-text {
   font-size: 3rem;
 }
