@@ -3,14 +3,16 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
 
-from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
-import random, string
+from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer,
+						  BadSignature, SignatureExpired)
+import random
+import string
 
 Base = declarative_base()
 
 # should I change the name of this key????
-secret_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for\
-	x in xrange(32))
+secret_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for
+					 x in xrange(32))
 
 
 class Users(Base):
@@ -29,8 +31,8 @@ class Users(Base):
 		}
 
 	def generate_auth_token(self, expiration=600):
-		s = Serializer(secret_key, expires_in = expiration)
-  		return s.dumps({'id': self.id })
+		s = Serializer(secret_key, expires_in=expiration)
+  		return s.dumps({'id': self.id})
 
 	@staticmethod
 	def verify_auth_token(token):
