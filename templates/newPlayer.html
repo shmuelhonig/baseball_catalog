@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 {% block content %}
 <div class='container-fluid'>
-  <h4 class'mb-4'>Adding player to {{team.name}}</h4>
+  <h4 class='mb-4'>Adding player to {{team.name}}</h4>
   <form action=# method='post'>
     <input type='hidden' name='csrf_token' value="{{ session['csrf_token'] }}">
     <div class='form-group'>
