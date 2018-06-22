@@ -59,9 +59,9 @@ def getUserID(email):
 
 # Flask_Dance code for Google sign-in
 blueprint = make_google_blueprint(
-    client_id="1040126620381-5sem9r51c2qic7l4utomj6hom8a6a4mn.apps.googleuserco\
-              ntent.com",
-    client_secret="I9whaUHlwFfkbLQ2U0Od9jku",
+    client_id="419460644309-st1geq8gcriul7dfv1agqnp72q21t0bh.apps.googleusercon\
+    tent.com",
+    client_secret="AY1wyTZwXDDvECNL2VXwoy3c",
     scope=["profile", "email"],
     offline=True,
     redirect_url="http://localhost:8000/google/login"
